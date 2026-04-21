@@ -1,0 +1,19 @@
+# Entorno virtual
+backend/venv/
+.venv/
+
+# Variables de entorno (contienen contraseñas, NO subir)
+backend/.env
+.env
+
+# Cache de Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Archivos de VS Code
+.vscode/
+
+# Archivos de sistema Windows
+Thumbs.db
+desktop.ini
