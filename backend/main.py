@@ -602,8 +602,9 @@ def listar_acciones_recomendadas(sector: str = None, volatilidad: str = None):
 
 
 # ============== 🆕 ALERTAS DE PRECIO ==============
-# Crear tablas al iniciar la app
-gestor_alertas.crear_tabla_alertas()
+@app.on_event("startup")
+def inicializar_alertas():
+    gestor_alertas.crear_tabla_alertas()
 
 @app.post("/alertas/crear")
 def crear_alerta(ticker: str = Form(...), tipo: str = Form(...), precio_objetivo: float = Form(...), 
