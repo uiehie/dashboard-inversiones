@@ -245,7 +245,7 @@
 /* ==========================
    🔐 CONFIGURACIÓN GLOBAL
 ========================== */
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://dashboard-inversiones-production.up.railway.app";
 function obtenerToken(){return localStorage.getItem("token");}
 function logout(){localStorage.removeItem("token");window.location.href = "login.html";}
 function verificarSesion(){if(!obtenerToken()) logout();}
