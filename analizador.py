@@ -1,0 +1,1 @@
+from backend.analizador import *
