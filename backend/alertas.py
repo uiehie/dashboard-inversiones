@@ -1,9 +1,9 @@
 """
 Sistema de alertas de precio para acciones del portafolio
 """
-try:
+if __package__:
     from .db import obtener_conexion
-except ImportError:
+else:
     from db import obtener_conexion
 from datetime import datetime, timedelta
 import yfinance as yf

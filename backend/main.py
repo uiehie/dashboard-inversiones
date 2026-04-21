@@ -2,12 +2,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import requests
-try:
+
+if __package__:
     from .db import obtener_conexion
     from .analizador import AnalizadorPortafolio
     from .alertas import gestor_alertas
     from .backtesting import BacktestConfig, run_sma_crossover_backtest
-except ImportError:
+else:
     from db import obtener_conexion
     from analizador import AnalizadorPortafolio
     from alertas import gestor_alertas

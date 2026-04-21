@@ -1,9 +1,9 @@
 """
 Módulo de análisis inteligente para recomendaciones de inversión
 """
-try:
+if __package__:
     from .db import obtener_conexion
-except ImportError:
+else:
     from db import obtener_conexion
 import yfinance as yf
 from collections import defaultdict
