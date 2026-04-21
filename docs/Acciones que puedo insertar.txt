@@ -1,0 +1,39 @@
+✅ QUÉ TICKERS SÍ TE VA A ACEPTAR (ejemplos reales)
+
+Estas son acciones famosas que casi todas las APIs gratuitas aceptan:
+
+🟢 Tecnología
+
+AAPL → Apple
+
+MSFT → Microsoft
+
+GOOGL → Google
+
+AMZN → Amazon
+
+META → Facebook / Meta
+
+NVDA → Nvidia
+
+TSLA → Tesla
+
+🟢 Finanzas
+
+JPM → JP Morgan
+
+BAC → Bank of America
+
+V → Visa
+
+MA → Mastercard
+
+🟢 Consumo / marcas grandes
+
+KO → Coca-Cola
+
+PEP → Pepsi
+
+MCD → McDonald’s
+
+NKE → Nike

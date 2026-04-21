@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Folleto Promocional | Cere7te Finacial</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;600;700;800&display=swap');
+
+    :root {
+      --mx-green: #006847;
+      --mx-green-dark: #014421;
+      --mx-red: #ce1126;
+      --mx-white: #f8f8f8;
+      --ink: #f8f8f8;
+      --ink-soft: #d7e7de;
+      --panel: rgba(255, 255, 255, 0.14);
+      --line: rgba(255, 255, 255, 0.24);
+      --accent: #ce1126;
+      --accent-2: #006847;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 14px;
+      color: var(--ink);
+      font-family: "Archivo", "Trebuchet MS", sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.18), transparent 34%),
+        radial-gradient(circle at 88% 78%, rgba(206, 17, 38, 0.22), transparent 36%),
+        linear-gradient(125deg, var(--mx-green-dark) 0%, #0b5b3e 46%, var(--mx-red) 100%);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      color: #fff;
+      background: linear-gradient(90deg, var(--mx-green), var(--mx-red));
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.20);
+    }
+
+    .flyer {
+      width: min(980px, 100%);
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
+        repeating-linear-gradient(0deg, transparent 0 30px, rgba(255, 255, 255, 0.04) 30px 31px),
+        linear-gradient(150deg, rgba(0, 104, 71, 0.94) 0%, rgba(1, 68, 33, 0.98) 55%, rgba(206, 17, 38, 0.90) 100%);
+      border: 2px dashed rgba(255, 255, 255, 0.35);
+      box-shadow: 0 18px 35px rgba(0, 0, 0, 0.22);
+      border-radius: 14px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      min-height: 640px;
+      position: relative;
+      animation: fadeUp 500ms ease-out;
+    }
+
+    .left,
+    .right {
+      padding: 28px 26px;
+      position: relative;
+    }
+
+    .left {
+      border-right: 1px solid var(--line);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .brand-logo {
+      width: 68px;
+      height: 68px;
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.28);
+      background: #fff;
+      padding: 6px;
+    }
+
+    .brand {
+      font-family: "Bebas Neue", "Impact", sans-serif;
+      font-size: clamp(30px, 4vw, 48px);
+      letter-spacing: 1.1px;
+      line-height: 0.95;
+      margin: 0;
+    }
+
+    .title {
+      font-family: "Bebas Neue", "Impact", sans-serif;
+      font-size: clamp(38px, 5vw, 70px);
+      line-height: 0.9;
+      letter-spacing: 1.2px;
+      margin: 10px 0 8px;
+      color: var(--mx-white);
+      text-wrap: balance;
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: clamp(16px, 2vw, 23px);
+      font-weight: 700;
+      color: var(--ink-soft);
+      max-width: 38ch;
+    }
+
+    .features {
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      max-width: 44ch;
+    }
+
+    .features li {
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: var(--panel);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-weight: 700;
+    }
+
+    .video-note {
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #eef7f2;
+    }
+
+    .person {
+      width: min(280px, 100%);
+      margin-top: 18px;
+      border-radius: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.30);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.16);
+      object-fit: cover;
+    }
+
+    .right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      text-align: center;
+      background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.20), transparent 65%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(206, 17, 38, 0.10));
+    }
+
+    .scan-title {
+      margin: 0;
+      font-family: "Bebas Neue", "Impact", sans-serif;
+      letter-spacing: 1px;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 0.95;
+    }
+
+    .scan-sub {
+      margin: 0;
+      font-size: 15px;
+      max-width: 24ch;
+      color: #eef7f2;
+      font-weight: 700;
+    }
+
+    .qr-wrap {
+      width: min(280px, 100%);
+      aspect-ratio: 1;
+      border-radius: 20px;
+      padding: 14px;
+      background: #fff;
+      border: 2px solid rgba(30, 22, 12, 0.25);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.20);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 10px;
+    }
+
+    .cta {
+      margin-top: 2px;
+      background: linear-gradient(90deg, var(--mx-green), var(--mx-red));
+      color: #fff;
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+    }
+
+    .print-qr {
+      display: none;
+    }
+
+    .print-qr img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 860px) {
+      .flyer {
+        grid-template-columns: 1fr;
+      }
+
+      .left {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+      }
+
+      .person {
+        width: min(360px, 100%);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @page {
+      size: A4 landscape;
+      margin: 8mm;
+    }
+
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      body {
+        background: #fff;
+        padding: 0;
+      }
+
+      .actions {
+        display: none;
+      }
+
+      .flyer {
+        width: 100%;
+        min-height: 0;
+        height: calc(210mm - 16mm);
+        box-shadow: none;
+        border-color: rgba(255, 255, 255, 0.35);
+        page-break-inside: avoid;
+        break-inside: avoid;
+        display: grid !important;
+        grid-template-columns: 1.2fr 0.8fr !important;
+      }
+
+      .right {
+        display: flex !important;
+      }
+
+      .qr-wrap {
+        width: 220px;
+        display: flex;
+      }
+
+      .cta {
+        display: inline-block;
+      }
+
+      .print-qr {
+        display: none;
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        width: 150px;
+        padding: 8px;
+        background: #ffffff;
+        border-radius: 12px;
+        border: 2px solid rgba(30, 22, 12, 0.18);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+        z-index: 5;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="actions">
+    <button class="btn" onclick="window.print()">Imprimir / Guardar PDF</button>
+  </div>
+
+  <article class="flyer" aria-label="Folleto promocional del sistema">
+    <section class="left">
+      <span class="badge">Folleto promocional</span>
+
+      <div class="brand-wrap">
+        <img class="brand-logo" src="assets/cere7te-logo.svg" alt="Logo del sistema">
+        <h1 class="brand">Cere7te Finacial</h1>
+      </div>
+
+      <h2 class="title">Dashboard de Inversiones Inteligente</h2>
+      <p class="subtitle">Controla tu portafolio, analiza rendimiento y toma mejores decisiones financieras.</p>
+
+      <ul class="features">
+        <li>Analisis de portafolio en tiempo real</li>
+        <li>ROI total y por accion con visualizacion clara</li>
+        <li>Recomendaciones inteligentes por perfil de riesgo</li>
+        <li>Exportacion de reportes en JSON, CSV y XLSX</li>
+      </ul>
+
+      <p class="video-note">Escanea el codigo QR para ver el video promocional de Cere7te y conocer todo el sistema en accion.</p>
+
+      <img class="person" src="assets/CR7.jpg" alt="Imagen promocional estilo CR7 del sistema">
+    </section>
+
+    <section class="right">
+      <h3 class="scan-title">Mira el video demo</h3>
+      <p class="scan-sub">Escanea este QR y descubre como Cere7te transforma tu forma de invertir.</p>
+
+      <div class="qr-wrap">
+        <img src="assets/qrvideocr7.png" alt="Codigo QR del video promocional">
+      </div>
+
+      <div class="cta">Escanea ahora</div>
+    </section>
+
+    <div class="print-qr" aria-hidden="true">
+      <img src="assets/qrvideocr7.png" alt="Codigo QR del video promocional">
+    </div>
+  </article>
+</body>
+</html>

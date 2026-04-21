@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 700" role="img" aria-labelledby="title desc">
+  <title id="title">Ilustracion estilo CR7</title>
+  <desc id="desc">Silueta de futbolista con numero 7 y detalles en colores mexicanos.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#006847"/>
+      <stop offset="60%" stop-color="#0e3b2c"/>
+      <stop offset="100%" stop-color="#ce1126"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f3f3f3"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="30" y="30" width="640" height="640" rx="120" fill="url(#bg)"/>
+  <circle cx="350" cy="150" r="60" fill="#ffffff" opacity="0.92"/>
+
+  <path d="M320 210c54 0 100 30 118 75l-48 28c-13-26-35-39-65-39-35 0-61 18-77 48-13 24-20 56-20 92 0 32 7 60 20 83 18 31 47 46 84 46 22 0 40-4 56-12l18 46c-23 12-49 18-79 18-62 0-108-26-136-77-18-31-27-68-27-109 0-47 10-88 30-123 30-51 74-76 126-76z" fill="url(#line)"/>
+
+  <path d="M458 260h140v40l-76 205h-58l71-166h-77z" fill="#ffffff"/>
+
+  <circle cx="170" cy="560" r="58" fill="#ffffff" opacity="0.9"/>
+  <path d="M130 560l26-26 16 17 19-19 20 21-18 18 17 17-22 22-16-16-21 22-21-21 20-21-20-20z" fill="#ce1126"/>
+</svg>

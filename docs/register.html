@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Cere7te Finacial | Registro</title>
+
+<style>
+:root {
+    --mx-green: #006847;
+    --mx-white: #f8f8f8;
+    --mx-red: #ce1126;
+}
+
+body {
+    background: linear-gradient(135deg, #014421 0%, #0a2b20 60%, #5a1119 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--mx-white);
+}
+
+.card {
+    background: rgba(9, 38, 28, 0.85);
+    padding: 40px;
+    border-radius: 12px;
+    width: 320px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.brand-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.brand-header img {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+.brand-header h1 {
+    margin: 0;
+    font-size: 20px;
+    color: var(--mx-white);
+}
+
+h2 {
+    margin-top: 8px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.08);
+    color: var(--mx-white);
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--mx-green), var(--mx-red));
+    color: var(--mx-white);
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.error {
+    color: #ff9da8;
+    margin-top: 10px;
+}
+
+.success {
+    color: #d7ffe3;
+    margin-top: 10px;
+}
+
+a {
+    color: var(--mx-white);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+</style>
+
+</head>
+<body>
+
+<div class="card">
+    <div class="brand-header">
+        <img src="assets/cere7te-logo.svg" alt="Cere7te Finacial logo">
+        <h1>Cere7te Finacial</h1>
+    </div>
+    <h2>📝 Crear cuenta</h2>
+
+    <input id="username" placeholder="Usuario" />
+    <input id="password" type="password" placeholder="Contraseña" />
+    <input id="password_confirm" type="password" placeholder="Confirmar contraseña" />
+
+    <button onclick="register()">Registrarse</button>
+
+    <div id="error" class="error"></div>
+    <div id="success" class="success"></div>
+
+    <p style="text-align: center; margin-top: 20px;">
+        ¿Ya tienes cuenta? 
+        <a href="login.html">Inicia sesión aquí</a>
+    </p>
+</div>
+
+<script>
+
+const API_URL = "http://127.0.0.1:8000";
+
+async function register() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const password_confirm = document.getElementById("password_confirm").value;
+
+    // Limpiar mensajes
+    document.getElementById("error").innerText = "";
+    document.getElementById("success").innerText = "";
+
+    // Validar campos
+    if (!username || !password || !password_confirm) {
+        document.getElementById("error").innerText = "Completa todos los campos";
+        return;
+    }
+
+    if (password !== password_confirm) {
+        document.getElementById("error").innerText = "Las contraseñas no coinciden";
+        return;
+    }
+
+    if (password.length < 5) {
+        document.getElementById("error").innerText = "La contraseña debe tener al menos 5 caracteres";
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        });
+
+        if (response.status === 400) {
+            document.getElementById("error").innerText = "El usuario ya existe";
+            return;
+        }
+
+        if (response.status !== 200) {
+            document.getElementById("error").innerText = "Error al registrarse. Intenta de nuevo.";
+            return;
+        }
+
+        document.getElementById("success").innerText = "✅ Cuenta creada exitosamente. Redirigiendo...";
+        
+        // Limpiar campos
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("password_confirm").value = "";
+
+        // Redirigir al login después de 2 segundos
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 2000);
+
+    } catch (error) {
+        document.getElementById("error").innerText = "Error de conexión con el servidor";
+        console.error(error);
+    }
+}
+
+</script>
+
+</body>
+</html>

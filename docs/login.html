@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Cere7te Finacial | Login</title>
+
+<style>
+:root {
+    --mx-green: #006847;
+    --mx-white: #f8f8f8;
+    --mx-red: #ce1126;
+    --muted: #cfdad4;
+}
+
+body {
+    background: linear-gradient(135deg, #014421 0%, #0a2b20 60%, #5a1119 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--mx-white);
+}
+
+.card {
+    background: rgba(9, 38, 28, 0.85);
+    padding: 40px;
+    border-radius: 12px;
+    width: 320px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.brand-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.brand-header img {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+.brand-header h1 {
+    margin: 0;
+    font-size: 20px;
+    color: var(--mx-white);
+}
+
+h2 {
+    margin-top: 8px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.08);
+    color: var(--mx-white);
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--mx-green), var(--mx-red));
+    color: var(--mx-white);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.error {
+    color: #ff9da8;
+    margin-top: 10px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="card">
+    <div class="brand-header">
+        <img src="assets/cere7te-logo.svg" alt="Cere7te Finacial logo">
+        <h1>Cere7te Finacial</h1>
+    </div>
+    <h2>🔐 Iniciar sesión</h2>
+
+    <input id="username" placeholder="Usuario">
+    <input id="password" type="password" placeholder="Contraseña">
+
+    <button onclick="login()">Entrar</button>
+
+    <div id="error" class="error"></div>
+
+    <p style="text-align: center; margin-top: 20px; color: var(--muted);">
+        ¿No tienes cuenta? 
+        <a href="register.html" style="color: var(--mx-white); text-decoration: none; font-weight: bold;">Crea una aquí</a>
+    </p>
+</div>
+
+<script>
+
+const API_URL = "http://127.0.0.1:8000";
+
+async function login() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    const formData = new URLSearchParams();
+    formData.append("username", username);
+    formData.append("password", password);
+
+    const response = await fetch(`${API_URL}/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: formData
+    });
+
+    if (response.status !== 200) {
+        document.getElementById("error").innerText = "Credenciales incorrectas";
+        return;
+    }
+
+    const data = await response.json();
+
+    // 🔥 GUARDAR TOKEN
+    localStorage.setItem("token", data.access_token);
+
+    // 🚀 Redirigir al dashboard
+    window.location.href = "index.html";
+}
+
+</script>
+
+</body>
+</html>

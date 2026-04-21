@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="11in" height="8.4in" viewBox="0 0 3300 2520" role="img" aria-labelledby="title desc">
+  <title id="title">Triptico Cere7te Finacial</title>
+  <desc id="desc">Diseno horizontal 11x8.4 en colores de Mexico para Canva.</desc>
+  <defs>
+    <linearGradient id="mxBg" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#014421"/>
+      <stop offset="50%" stop-color="#0f5c43"/>
+      <stop offset="100%" stop-color="#ce1126"/>
+    </linearGradient>
+    <linearGradient id="panelA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0c4a36"/>
+      <stop offset="100%" stop-color="#0b3c2d"/>
+    </linearGradient>
+    <linearGradient id="panelB" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a6f51"/>
+      <stop offset="100%" stop-color="#0e503a"/>
+    </linearGradient>
+    <linearGradient id="chip" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.17"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.07"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="3300" height="2520" fill="url(#mxBg)"/>
+
+  <rect x="90" y="130" width="3120" height="2260" rx="46" fill="#0a3c2d" fill-opacity="0.3" stroke="#ffffff" stroke-opacity="0.35" stroke-width="5"/>
+
+  <rect x="120" y="220" width="1020" height="2060" fill="url(#panelA)"/>
+  <rect x="1140" y="220" width="1020" height="2060" fill="url(#panelB)"/>
+  <rect x="2160" y="220" width="1020" height="2060" fill="url(#panelA)"/>
+
+  <line x1="1140" y1="220" x2="1140" y2="2280" stroke="#ffffff" stroke-opacity="0.3" stroke-dasharray="9 10"/>
+  <line x1="2160" y1="220" x2="2160" y2="2280" stroke="#ffffff" stroke-opacity="0.3" stroke-dasharray="9 10"/>
+
+  <text x="170" y="170" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="800">Cere7te Finacial | Triptico 11 x 8.4</text>
+
+  <g transform="translate(220,340)">
+    <rect x="0" y="0" width="170" height="170" rx="38" fill="#ffffff" fill-opacity="0.9"/>
+    <text x="36" y="122" fill="#014421" font-family="Segoe UI, Arial, sans-serif" font-size="114" font-weight="900">C7</text>
+    <text x="198" y="78" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="92" font-weight="900">Cere7te</text>
+    <text x="198" y="168" fill="#dcefe5" font-family="Segoe UI, Arial, sans-serif" font-size="72" font-weight="900">Finacial</text>
+    <text x="198" y="232" fill="#d9ebe3" font-family="Segoe UI, Arial, sans-serif" font-size="44" font-weight="700" letter-spacing="4">DASHBOARD DE INVERSIONES</text>
+  </g>
+
+  <g transform="translate(210,670)">
+    <text x="0" y="0" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="104" font-weight="900">Que es Cere7te Finacial?</text>
+    <text x="0" y="116" fill="#e7f2ec" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700">Plataforma para analizar y mejorar tu portafolio en tiempo real.</text>
+    <text x="0" y="218" fill="#d7e9df" font-family="Segoe UI, Arial, sans-serif" font-size="46" font-weight="600">ROI automatico, recomendaciones inteligentes,</text>
+    <text x="0" y="286" fill="#d7e9df" font-family="Segoe UI, Arial, sans-serif" font-size="46" font-weight="600">diversificacion por sector, alertas y reportes.</text>
+  </g>
+
+  <g transform="translate(1240,430)">
+    <text x="290" y="0" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="108" font-weight="900">Contacto</text>
+    <rect x="0" y="80" width="820" height="168" rx="28" fill="url(#chip)" stroke="#ffffff" stroke-opacity="0.5"/>
+    <rect x="0" y="286" width="820" height="168" rx="28" fill="url(#chip)" stroke="#ffffff" stroke-opacity="0.5"/>
+    <rect x="0" y="492" width="820" height="168" rx="28" fill="url(#chip)" stroke="#ffffff" stroke-opacity="0.5"/>
+    <text x="410" y="190" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="800">Proyecto: Cere7te Finacial</text>
+    <text x="410" y="396" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="800">Demo local: 127.0.0.1:8000</text>
+    <text x="410" y="602" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="800">Panel web: frontend/index.html</text>
+
+    <text x="410" y="790" text-anchor="middle" fill="#d7e9df" font-family="Segoe UI, Arial, sans-serif" font-size="50" font-weight="700">Asistente digital para inversionistas</text>
+    <text x="410" y="858" text-anchor="middle" fill="#d7e9df" font-family="Segoe UI, Arial, sans-serif" font-size="50" font-weight="700">que quieren claridad y automatizacion.</text>
+    <text x="410" y="985" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="900">Soporte demo:</text>
+
+    <rect x="40" y="1040" width="740" height="210" rx="24" fill="#f8f8f8"/>
+    <text x="410" y="1178" text-anchor="middle" fill="#13402f" font-family="Segoe UI, Arial, sans-serif" font-size="90" font-weight="900">+52 56-4193-0114</text>
+  </g>
+
+  <g transform="translate(2225,430)">
+    <text x="0" y="0" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="108" font-weight="900">Beneficios Clave</text>
+    <text x="0" y="154" fill="#eaf5ef" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="700">• Ahorra tiempo en analisis de portafolio.</text>
+    <text x="0" y="254" fill="#eaf5ef" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="700">• Consulta precios y rendimiento al instante.</text>
+    <text x="0" y="354" fill="#eaf5ef" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="700">• Recomendaciones por perfil de riesgo.</text>
+    <text x="0" y="454" fill="#eaf5ef" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="700">• Alertas y calculadora de inversion.</text>
+    <text x="0" y="554" fill="#eaf5ef" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="700">• Exporta a JSON, CSV y Excel .xlsx.</text>
+
+    <rect x="170" y="700" width="700" height="580" rx="38" fill="#ffffff" fill-opacity="0.12" stroke="#ffffff" stroke-opacity="0.55"/>
+    <text x="520" y="870" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="180" font-weight="900">CR7</text>
+    <text x="520" y="960" text-anchor="middle" fill="#e6f1ea" font-family="Segoe UI, Arial, sans-serif" font-size="54" font-weight="700">Espiritu ganador + disciplina</text>
+    <circle cx="520" cy="1110" r="48" fill="#f8f8f8"/>
+    <text x="520" y="1130" text-anchor="middle" fill="#ce1126" font-family="Segoe UI, Arial, sans-serif" font-size="72" font-weight="900">7</text>
+  </g>
+
+  <g transform="translate(200,1570)">
+    <text x="0" y="0" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="94" font-weight="900">Modulos del Sistema</text>
+    <text x="0" y="128" fill="#e7f2ec" font-family="Segoe UI, Arial, sans-serif" font-size="52" font-weight="700">• Alta de acciones con precio actual</text>
+    <text x="0" y="216" fill="#e7f2ec" font-family="Segoe UI, Arial, sans-serif" font-size="52" font-weight="700">• Analisis de ROI total y por accion</text>
+    <text x="0" y="304" fill="#e7f2ec" font-family="Segoe UI, Arial, sans-serif" font-size="52" font-weight="700">• Recomendaciones inteligentes + compra rapida</text>
+    <text x="0" y="392" fill="#e7f2ec" font-family="Segoe UI, Arial, sans-serif" font-size="52" font-weight="700">• Diversificacion sectorial con score visual</text>
+    <text x="0" y="480" fill="#e7f2ec" font-family="Segoe UI, Arial, sans-serif" font-size="52" font-weight="700">• Historial y alertas de precio</text>
+    <text x="0" y="568" fill="#e7f2ec" font-family="Segoe UI, Arial, sans-serif" font-size="52" font-weight="700">• Exportaciones en multiples formatos</text>
+  </g>
+
+  <g transform="translate(1280,1600)">
+    <text x="250" y="0" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="98" font-weight="900">Mision y Vision</text>
+    <rect x="0" y="70" width="760" height="270" rx="28" fill="url(#chip)" stroke="#ffffff" stroke-opacity="0.45"/>
+    <rect x="0" y="370" width="760" height="270" rx="28" fill="url(#chip)" stroke="#ffffff" stroke-opacity="0.45"/>
+    <text x="380" y="170" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="900">Vision</text>
+    <text x="380" y="240" text-anchor="middle" fill="#eaf4ef" font-family="Segoe UI, Arial, sans-serif" font-size="44" font-weight="700">Ser el dashboard financiero mas claro</text>
+    <text x="380" y="300" text-anchor="middle" fill="#eaf4ef" font-family="Segoe UI, Arial, sans-serif" font-size="44" font-weight="700">y accionable para nuevos inversionistas.</text>
+
+    <text x="380" y="470" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="900">Mision</text>
+    <text x="380" y="540" text-anchor="middle" fill="#eaf4ef" font-family="Segoe UI, Arial, sans-serif" font-size="44" font-weight="700">Unificar datos, analitica y decisiones</text>
+    <text x="380" y="600" text-anchor="middle" fill="#eaf4ef" font-family="Segoe UI, Arial, sans-serif" font-size="44" font-weight="700">de inversion en una sola experiencia.</text>
+  </g>
+
+  <g transform="translate(2240,1580)">
+    <text x="0" y="0" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="94" font-weight="900">Tips de uso</text>
+    <rect x="0" y="75" width="920" height="145" rx="24" fill="url(#chip)" stroke="#ffffff" stroke-opacity="0.35"/>
+    <rect x="0" y="245" width="920" height="145" rx="24" fill="url(#chip)" stroke="#ffffff" stroke-opacity="0.35"/>
+    <rect x="0" y="415" width="920" height="145" rx="24" fill="url(#chip)" stroke="#ffffff" stroke-opacity="0.35"/>
+    <rect x="0" y="585" width="920" height="145" rx="24" fill="url(#chip)" stroke="#ffffff" stroke-opacity="0.35"/>
+    <text x="34" y="168" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="50" font-weight="800">1) Actualiza recomendaciones semanalmente</text>
+    <text x="34" y="338" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="50" font-weight="800">2) Diversifica por sector y riesgo</text>
+    <text x="34" y="508" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="50" font-weight="800">3) Define metas de ROI mensuales</text>
+    <text x="34" y="678" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="50" font-weight="800">4) Exporta y compara reportes</text>
+  </g>
+</svg>

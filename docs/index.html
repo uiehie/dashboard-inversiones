@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cere7te Finacial</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{
+      --bg:#06281d;--panel:#0d3023;--card:#13402e;--border:#1b5b43;--text:#f8f8f8;--muted:#d8e4dd;--gold:#ffffff;--green:#006847;--red:#ce1126;--accent:#ce1126
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#014421 0%,#0b2b22 60%,#5a1119 100%);color:var(--text);margin:0;min-height:100vh}
+    /* layout */
+    .app{display:flex;min-height:100vh}
+    .sidebar{width:250px;background:linear-gradient(180deg,#0f3a2b,#0d2e23);padding:24px;color:var(--text);border-right:1px solid rgba(255,255,255,0.14);position:fixed;left:0;top:0;bottom:0}
+    .sidebar .brand{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+    .sidebar .brand-logo{width:40px;height:40px;border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,0.28)}
+    .sidebar .title{font-weight:800;color:var(--gold);letter-spacing:.4px;font-size:16px;line-height:1.15}
+    .sidebar nav{display:flex;flex-direction:column;gap:8px}
+    .sidebar nav a{color:var(--muted);padding:10px;border-radius:8px;text-decoration:none;font-weight:600}
+    .sidebar nav a.active,.sidebar nav a:hover{background:rgba(255,255,255,0.12);color:var(--gold)}
+    .sidebar-footer{position:absolute;bottom:20px;left:24px;right:24px}
+    .sidebar-footer .logout{width:100%;padding:10px;border-radius:8px;background:linear-gradient(90deg,#ce1126,#9b0e1d);border:none;color:white;font-weight:700}
+
+    .main{margin-left:270px;flex:1;padding:28px 40px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+    .topbar h1{margin:0;font-size:28px}
+    .subtitle{color:var(--muted);margin:4px 0 0;font-size:13px}
+    .top-actions input{padding:8px 12px;border-radius:8px;border:none;background:rgba(255,255,255,0.03);color:var(--text)}
+
+    .grid{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:18px}
+    .panel{background:linear-gradient(135deg, rgba(13,48,35,0.7), rgba(19,64,46,0.6));padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.14)}
+    .panel h3{margin-top:0}
+    .form-row{display:flex;gap:8px;align-items:center}
+    .form-row input{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:rgba(255,255,255,0.02);color:var(--text)}
+    .form-row button{padding:10px 14px;border-radius:8px;border:none;background:linear-gradient(90deg,var(--green),var(--red));color:#fff;cursor:pointer}
+    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .card.small{padding:12px}
+    .card.small h4{margin:0;color:var(--muted);font-size:12px}
+    .card.small p{margin:8px 0 0;font-size:20px;font-weight:700;color:var(--gold)}
+
+    .reco-list{display:grid;gap:12px}
+    .reco-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:12px;background:rgba(13,48,35,0.45);border-left:4px solid rgba(255,255,255,0.35)}
+
+    .panels{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+    .small{min-height:110px}
+
+    .chart-panel{margin-bottom:18px}
+    .chart-controls{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+    .chart-controls input{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:rgba(255,255,255,0.02);color:var(--text)}
+    canvas{width:100%!important;height:320px!important;background:linear-gradient(135deg, rgba(13,48,35,0.7), rgba(19,64,46,0.6));border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.14)}
+
+    .table-panel .table-wrap{overflow:auto}
+    table{width:100%;min-width:900px;border-collapse:collapse;background:transparent}
+    th{background:rgba(13,48,35,0.8);color:var(--gold);font-weight:700;padding:12px;text-transform:uppercase;font-size:11px;border-bottom:1px solid rgba(255,255,255,0.2)}
+    td{padding:10px;text-align:center;border-top:1px solid rgba(255,255,255,0.08)}
+
+    .muted{color:var(--muted);font-size:13px}
+    
+    /* 🆕 ESTILOS PARA NUEVAS FEATURES */
+    .tab-buttons{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+    .tab-btn{padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.35);background:rgba(13,48,35,0.5);color:var(--text);cursor:pointer;transition:all 0.3s}
+    .tab-btn.active{background:var(--gold);color:#000;font-weight:700}
+    .tab-btn:hover{border-color:var(--gold);color:var(--gold)}
+    
+    .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.35);padding:8px 12px;border-radius:8px;margin:4px;font-size:12px;color:var(--gold)}
+    
+    .alarm-item{display:flex;justify-content:space-between;padding:10px;background:rgba(13,48,35,0.45);border-radius:8px;margin:8px 0;border-left:3px solid var(--gold)}
+    .alarm-btn{padding:6px 12px;border:none;border-radius:6px;background:#e74c3c;color:white;cursor:pointer;font-size:12px}
+    
+    .modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center}
+    .modal.active{display:flex}
+    .modal-content{background:var(--card);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.24);max-width:500px;width:90%}
+    .modal-content h3{margin-top:0;color:var(--gold)}
+    .modal-content .form-row{flex-direction:column}
+    .modal-content input{width:100%;padding:10px;margin:8px 0}
+    .close-btn{background:rgba(255,255,255,0.2);border:none;padding:20px;position:absolute;top:10px;right:10px;cursor:pointer;border-radius:50%;color:var(--gold)}
+
+    @media(max-width:900px){.sidebar{display:none}.main{margin-left:0;padding:16px}.grid{grid-template-columns:1fr}.panels{grid-template-columns:1fr 1fr}.cards{grid-template-columns:repeat(2,1fr)}table{min-width:700px}}
+
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><img class="brand-logo" src="assets/cere7te-logo.svg" alt="Cere7te Finacial logo"><div class="title">Cere7te<br>Finacial</div></div>
+    <nav>
+      <a href="#" class="active">Dashboard</a>
+      <a href="#recomendaciones">Recomendaciones</a>
+      <a href="#diversificacion">Diversificación</a>
+      <a href="#agregar">Agregar acción</a>
+      <a href="#grafica">Gráfica</a>
+    </nav>
+    <div class="sidebar-footer"><button class="logout" onclick="logout()">Cerrar sesión</button></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1>Cere7te Finacial</h1>
+        <p class="subtitle">Panel inteligente en verde, blanco y rojo para gestionar tus inversiones</p>
+      </div>
+      <div class="top-actions"><input id="searchTicker" placeholder="Buscar ticker..." onkeydown="if(event.key==='Enter'){document.getElementById('tickerGrafica').value=this.value; cargarGrafica(); cargarROIAccion();}"/></div>
+    </header>
+
+    <section class="grid" id="agregar">
+      <div class="panel">
+        <h3>Agregar acción</h3>
+        <div class="form-row">
+          <input type="text" id="tickerAgregar" placeholder="Ticker (AAPL)" />
+          <input type="number" id="cantidad" placeholder="Cantidad" />
+          <button onclick="agregarAccion()">Agregar</button>
+        </div>
+      </div>
+
+      <div class="panel stats">
+        <div class="cards">
+          <div class="card small"><h4>Total invertido</h4><p id="total_invertido">$0</p></div>
+          <div class="card small"><h4>Ganancia total</h4><p id="ganancia_total">$0</p></div>
+          <div class="card small"><h4>ROI</h4><p id="roi">0%</p></div>
+          <div class="card small"><h4>Acciones</h4><p id="total_acciones">0</p></div>
+        </div>
+      </div>
+
+      <div class="panel" id="recomendaciones">
+        <h3>💡 Acciones Recomendadas para Ti</h3>
+        <div id="recomendaciones-container" class="reco-list"></div>
+        <button class="full" onclick="cargarRecomendaciones(true)">🔄 Actualizar Recomendaciones</button>
+      </div>
+
+      <div class="panel" id="diversificacion">
+        <h3>📊 Análisis de Diversificación</h3>
+        <p id="diversificacion_score" style="font-size:22px;margin:8px 0">—%</p>
+        <div id="diversificacion-analisis"></div>
+      </div>
+    </section>
+
+    <!-- 🆕 ALERTAS DE PRECIO -->
+    <section class="panel" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3>⏰ Alertas de Precio</h3>
+        <button onclick="abrirModalAlerta()" style="padding:8px 14px;border-radius:6px;border:none;background:var(--gold);color:#000;cursor:pointer;font-weight:700">+ Nueva Alerta</button>
+      </div>
+      <div id="alertas-container" style="display:grid;gap:10px"></div>
+    </section>
+
+    <!-- 🆕 CALCULADORA DE INVERSIÓN -->
+    <section class="panel" style="margin-bottom:18px">
+      <h3>🧮 Calculadora de Inversión</h3>
+      <div class="form-row">
+        <input type="text" id="calcTicker" placeholder="Ticker (AAPL)" />
+        <input type="number" id="calcCantidad" placeholder="Cantidad" />
+        <input type="number" id="calcPrecio" placeholder="Precio actual (auto)" step="0.01" readonly />
+        <input type="number" id="calcROI" placeholder="ROI esperado %" step="0.1" />
+        <button onclick="calcularSimulacion()">Calcular</button>
+      </div>
+      <div id="calc-resultado" style="margin-top:12px;padding:12px;background:rgba(15,20,25,0.5);border-radius:8px;border-left:3px solid var(--gold);display:none">
+        <p style="margin:0;font-size:12px;color:var(--muted)">Resultados:</p>
+        <p id="calc-output" style="margin:8px 0 0;color:var(--gold);font-weight:700"></p>
+      </div>
+    </section>
+
+    <!-- 🆕 BADGES/LOGROS -->
+    <section class="panel" style="margin-bottom:18px">
+      <h3>🏆 Tus Logros</h3>
+      <div id="badges-container" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+    </section>
+
+    <!-- 🆕 ACCIONES RÁPIDAS -->
+    <section class="panel" style="margin-bottom:18px">
+      <h3>⚡ Acciones Rápidas</h3>
+      <div class="form-row">
+        <button onclick="exportarDatos()" style="flex:1;padding:10px;background:rgba(0,104,71,0.35);border:1px solid #006847;border-radius:6px;color:var(--text);cursor:pointer">📥 Descargar JSON</button>
+        <button onclick="exportarExcel()" style="flex:1;padding:10px;background:rgba(255,255,255,0.2);border:1px solid #f8f8f8;border-radius:6px;color:var(--text);cursor:pointer">📊 Descargar Excel (CSV)</button>
+        <button onclick="exportarExcelXlsx()" style="flex:1;padding:10px;background:rgba(0,104,71,0.25);border:1px solid #f8f8f8;border-radius:6px;color:var(--text);cursor:pointer">📗 Descargar Excel (.xlsx)</button>
+        <button onclick="verHistorial()" style="flex:1;padding:10px;background:rgba(255,255,255,0.25);border:1px solid #ffffff;border-radius:6px;color:var(--text);cursor:pointer">📝 Ver Historial</button>
+        <button onclick="reproducirNotificacion()" style="flex:1;padding:10px;background:rgba(206,17,38,0.35);border:1px solid #ce1126;border-radius:6px;color:var(--text);cursor:pointer">🔔 Prueba Notificación</button>
+      </div>
+    </section>
+
+    <section class="panels">
+
+      <div class="panel small" id="perfil"><h3>Perfil de Riesgo</h3><p id="perfil_riesgo">—</p><p id="volatilidad_info" class="muted">—</p></div>
+      <div class="panel small"><h3>ROI por acción</h3><p id="roi_accion">—</p></div>
+      <div class="panel small"><h3>Resumen Inteligente</h3><p id="mensaje_inteligente">Analizando portafolio...</p></div>
+      <div class="panel small"><h3>Mejor Acción</h3><p id="mejor_accion">—</p></div>
+    </section>
+
+    <section class="chart-panel" id="graficaSection">
+      <div class="chart-controls">
+        <label>Ticker:</label>
+        <input id="tickerGrafica" value="AAPL" />
+        <button onclick="cargarGrafica(); cargarROIAccion();">Ver gráfica</button>
+      </div>
+      <canvas id="graficaCanvas"></canvas>
+    </section>
+
+    <section class="table-panel">
+      <h3>Portafolio</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Ticker</th><th>Cantidad</th><th>Compra</th><th>Actual</th><th>Ganancia</th><th>ROI</th><th>Eliminar</th></tr>
+          </thead>
+          <tbody id="tabla-portafolio"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- 🆕 MODAL PARA NUEVAS ALERTAS -->
+<div id="modalAlerta" class="modal">
+  <div class="modal-content">
+    <button class="close-btn" onclick="cerrarModalAlerta()">✕</button>
+    <h3>Crear Nueva Alerta</h3>
+    <div class="form-row">
+      <label style="color:var(--muted);font-size:12px">Ticker</label>
+      <input type="text" id="alertaTicker" placeholder="AAPL" style="text-transform:uppercase" />
+      <label style="color:var(--muted);font-size:12px">Tipo</label>
+      <select id="alertaTipo" style="padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);color:var(--text)">
+        <option value="sube_a">Sube a</option>
+        <option value="baja_a">Baja a</option>
+      </select>
+      <label style="color:var(--muted);font-size:12px">Precio Objetivo</label>
+      <input type="number" id="alertaPrecio" placeholder="150.00" step="0.01" />
+      <button onclick="crearNuevaAlerta()" style="padding:10px;background:var(--gold);color:#000;border:none;border-radius:6px;cursor:pointer;font-weight:700">Crear Alerta</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🆕 MODAL PARA HISTORIAL -->
+<div id="modalHistorial" class="modal">
+  <div class="modal-content" style="max-width:700px">
+    <button class="close-btn" onclick="cerrarModalHistorial()">✕</button>
+    <h3>Historial de Transacciones</h3>
+    <div id="historial-container" style="max-height:400px;overflow-y:auto"></div>
+  </div>
+</div>
+
+<script>
+/* ==========================
+   🔐 CONFIGURACIÓN GLOBAL
+========================== */
+const API_URL = "http://127.0.0.1:8000";
+function obtenerToken(){return localStorage.getItem("token");}
+function logout(){localStorage.removeItem("token");window.location.href = "login.html";}
+function verificarSesion(){if(!obtenerToken()) logout();}
+verificarSesion();
+
+async function fetchConAuth(url, options={}){
+  const token = obtenerToken();
+  const response = await fetch(url,{...options,headers:{"Content-Type":"application/json","Authorization":`Bearer ${token}`,...(options.headers||{})}});
+  if(response.status===401){logout();return null}
+  return response
+}
+
+let chart = null;
+
+// 🔔 NOTIFICACIÓN SONORA
+function reproducirNotificacion(){
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  
+  oscillator.frequency.value = 800;
+  oscillator.type = 'sine';
+  gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+  
+  oscillator.start(audioContext.currentTime);
+  oscillator.stop(audioContext.currentTime + 0.5);
+  
+  alert('🔔 ¡Notificación de audio reproducida!');
+}
+
+// ⏰ ALERTAS
+function abrirModalAlerta(){document.getElementById("modalAlerta").classList.add("active")}
+function cerrarModalAlerta(){document.getElementById("modalAlerta").classList.remove("active")}
+
+async function crearNuevaAlerta(){
+  const ticker = document.getElementById("alertaTicker").value.trim();
+  const tipo = document.getElementById("alertaTipo").value;
+  const precio = parseFloat(document.getElementById("alertaPrecio").value);
+  
+  if(!ticker||!precio) return alert("Completa los campos");
+  
+  const formData = new FormData();
+  formData.append("ticker", ticker);
+  formData.append("tipo", tipo);
+  formData.append("precio_objetivo", precio);
+  
+  const response = await fetch(`${API_URL}/alertas/crear`, {
+    method: "POST",
+    headers: {"Authorization": `Bearer ${obtenerToken()}`},
+    body: formData
+  });
+  
+  if(response.ok){
+    alert("✅ Alerta creada!");
+    cerrarModalAlerta();
+    document.getElementById("alertaTicker").value="";
+    document.getElementById("alertaPrecio").value="";
+    cargarAlertas();
+  }else{
+    alert("Error al crear la alerta");
+  }
+}
+
+async function cargarAlertas(){
+  const r = await fetchConAuth(`${API_URL}/alertas`);
+  if(!r) return;
+  const data = await r.json();
+  const container = document.getElementById("alertas-container");
+  container.innerHTML = "";
+  
+  if(!data.alertas || data.alertas.length === 0){
+    container.innerHTML = "<p style='color:var(--muted)'>No tienes alertas. ¡Crea una!</p>";
+    return;
+  }
+  
+  data.alertas.forEach(a => {
+    const color = a.activada ? "#2ecc71" : "#f39c12";
+    const estado = a.activada ? "🔴 ACTIVADA" : "⏳ Esperando";
+    const html = `
+      <div class="alarm-item" style="border-left-color:${color}">
+        <div>
+          <strong>${a.ticker}</strong> - ${a.tipo === 'sube_a' ? '📈' : '📉'} ${a.tipo.replace('_', ' ')} $${a.precio_objetivo}
+          <br><small style="color:var(--muted)">Precio actual: $${a.precio_actual || '—'}</small>
+          <br><span style="color:${color};font-size:11px">${estado}</span>
+        </div>
+        <button class="alarm-btn" onclick="eliminarAlerta(${a.id})">Eliminar</button>
+      </div>
+    `;
+    container.innerHTML += html;
+  });
+}
+
+async function eliminarAlerta(id){
+  if(!confirm("¿Eliminar esta alerta?")) return;
+  const r = await fetchConAuth(`${API_URL}/alertas/${id}`, {method:"DELETE"});
+  if(r && r.ok) cargarAlertas();
+}
+
+// 🧮 CALCULADORA
+async function obtenerPrecioActualTicker(ticker){
+  const r = await fetchConAuth(`${API_URL}/acciones/historico/${ticker}?_ts=${Date.now()}`);
+  if(!r || !r.ok) return null;
+  const d = await r.json();
+  if(!d.historico || d.historico.length === 0) return null;
+  const ultimo = d.historico[d.historico.length - 1];
+  return Number(ultimo.cierre);
+}
+
+async function autocompletarPrecioCalculadora(){
+  const tickerInput = document.getElementById("calcTicker");
+  const precioInput = document.getElementById("calcPrecio");
+  const ticker = tickerInput.value.trim().toUpperCase();
+
+  if(!ticker){
+    precioInput.value = "";
+    return;
+  }
+
+  precioInput.value = "";
+  precioInput.placeholder = "Buscando precio...";
+
+  const precio = await obtenerPrecioActualTicker(ticker);
+  if(precio === null){
+    precioInput.placeholder = "Sin precio disponible";
+    return;
+  }
+
+  precioInput.value = precio.toFixed(2);
+  precioInput.placeholder = "Precio actual (auto)";
+}
+
+async function calcularSimulacion(){
+  const ticker = document.getElementById("calcTicker").value.trim().toUpperCase();
+  const cantidad = parseInt(document.getElementById("calcCantidad").value);
+  const precioInput = document.getElementById("calcPrecio");
+  const roi = parseFloat(document.getElementById("calcROI").value);
+
+  if(!ticker||!cantidad||Number.isNaN(roi)) return alert("Completa los campos");
+
+  let precio = parseFloat(precioInput.value);
+  if(Number.isNaN(precio)){
+    const precioActual = await obtenerPrecioActualTicker(ticker);
+    if(precioActual === null) return alert("No se pudo obtener el precio actual del ticker");
+    precio = precioActual;
+    precioInput.value = precio.toFixed(2);
+  }
+  
+  if(precio <= 0) return alert("Precio actual inválido");
+  
+  const formData = new FormData();
+  formData.append("ticker", ticker);
+  formData.append("cantidad", cantidad);
+  formData.append("precio_actual", precio);
+  formData.append("roi_esperado", roi);
+  
+  const response = await fetch(`${API_URL}/calculadora/simular`, {
+    method: "POST",
+    headers: {"Authorization": `Bearer ${obtenerToken()}`},
+    body: formData
+  });
+  
+  if(response.ok){
+    const data = await response.json();
+    const resultado = document.getElementById("calc-resultado");
+    resultado.style.display = "block";
+    document.getElementById("calc-output").innerHTML = `
+      💰 ${data.ticker}<br>
+      Inversión: $${data.inversion_inicial} | ROI: ${data.roi_esperado}%<br>
+      Ganancia esperada: <span style="color:#2ecc71">+$${data.ganancia_esperada}</span><br>
+      Valor final: <span style="color:#f39c12">$${data.valor_final}</span><br>
+      Precio futuro/acción: <span style="font-size:14px;font-weight:700">$${data.precio_futuro}</span>
+    `;
+  }
+}
+
+// 🏆 BADGES
+async function cargarLogros(){
+  const r = await fetchConAuth(`${API_URL}/logros`);
+  if(!r) return;
+  const data = await r.json();
+  const container = document.getElementById("badges-container");
+  container.innerHTML = "";
+  
+  if(!data.logros || data.logros.length === 0){
+    container.innerHTML = "<p style='color:var(--muted)'>Sigue invertiendo para desbloquear logros</p>";
+    return;
+  }
+  
+  data.logros.forEach(b => {
+    const badge = document.createElement('div');
+    badge.className = 'badge';
+    badge.innerHTML = `<span style="font-size:20px">${b.emoji}</span><div><strong>${b.nombre}</strong><br><small style="color:var(--muted)">${b.descripcion}</small></div>`;
+    container.appendChild(badge);
+  });
+}
+
+// 📥 EXPORTAR
+async function exportarDatos(){
+  const r = await fetchConAuth(`${API_URL}/exportar/json`);
+  if(!r) return;
+  const data = await r.json();
+  
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `portafolio_${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+}
+
+async function exportarExcel(){
+  const r = await fetchConAuth(`${API_URL}/exportar/csv`);
+  if(!r || !r.ok) return alert("No se pudo exportar el archivo para Excel");
+
+  const blob = await r.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `portafolio_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+}
+
+async function exportarExcelXlsx(){
+  const r = await fetchConAuth(`${API_URL}/exportar/xlsx`);
+  if(!r || !r.ok) return alert("No se pudo exportar el archivo .xlsx");
+
+  const blob = await r.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `portafolio_${new Date().toISOString().split('T')[0]}.xlsx`;
+  a.click();
+}
+
+// 📝 HISTORIAL
+function abrirModalHistorial(){document.getElementById("modalHistorial").classList.add("active")}
+function cerrarModalHistorial(){document.getElementById("modalHistorial").classList.remove("active")}
+
+async function verHistorial(){
+  const r = await fetchConAuth(`${API_URL}/historial/transacciones?limite=100`);
+  if(!r) return;
+  const data = await r.json();
+  const container = document.getElementById("historial-container");
+  container.innerHTML = "";
+  
+  if(!data.historial || data.historial.length === 0){
+    container.innerHTML = "<p style='color:var(--muted)'>Sin historial aún</p>";
+    abrirModalHistorial();
+    return;
+  }
+  
+  let html = '<table style="width:100%;font-size:12px"><tr style="border-bottom:1px solid rgba(201,169,97,0.2)"><th style="text-align:left;color:var(--gold)">Fecha</th><th style="text-align:left">Tipo</th><th>Ticker</th><th>Cantidad</th><th>Monto</th></tr>';
+  
+  data.historial.forEach(h => {
+    const fecha = new Date(h.fecha).toLocaleDateString();
+    const tipo = h.tipo === 'compra' ? '➕' : h.tipo === 'venta' ? '➖' : '⏰';
+    html += `<tr style="border-bottom:1px solid rgba(201,169,97,0.05)"><td>${fecha}</td><td>${tipo} ${h.tipo}</td><td>${h.ticker}</td><td>${h.cantidad || '-'}</td><td>$${h.monto || h.precio || '—'}</td></tr>`;
+  });
+  html += '</table>';
+  
+  container.innerHTML = html;
+  abrirModalHistorial();
+}
+
+/* ---------- RESUMEN ---------- */
+async function cargarResumen(){const r=await fetchConAuth(`${API_URL}/dashboard/resumen`);if(!r) return;const d=await r.json();document.getElementById("total_invertido").innerText=`$${d.total_invertido}`;document.getElementById("ganancia_total").innerText=`$${d.ganancia_total}`;document.getElementById("roi").innerText=`${d.roi_porcentaje}%`;document.getElementById("total_acciones").innerText=d.total_acciones;let mensaje="";if(d.roi_porcentaje>15) mensaje="🚀 Excelente rendimiento. Estrategia sólida.";else if(d.roi_porcentaje>0) mensaje="📈 Portafolio en crecimiento. Buen trabajo.";else if(d.roi_porcentaje<0) mensaje="⚠️ El portafolio está en pérdida. Considera diversificar.";else mensaje="📊 Sin movimientos significativos.";document.getElementById("mensaje_inteligente").innerText=mensaje}
+
+/* ---------- GRAFICA ---------- */
+async function cargarGrafica(){
+  try{
+    const ticker = document.getElementById("tickerGrafica").value.trim().toUpperCase();
+    if(!ticker) return alert("Ingresa un ticker");
+
+    const r = await fetchConAuth(`${API_URL}/acciones/historico/${ticker}`);
+    if(!r) return;
+
+    const d = await r.json();
+    if(!d.historico || d.historico.length === 0) return alert("No hay datos");
+
+    const fechas = d.historico.map(x => x.fecha);
+    const precios = d.historico.map(x => Number(x.cierre));
+
+    const canvas = document.getElementById("graficaCanvas");
+    if(!canvas) return alert('Canvas no encontrado');
+    // ensure visible size
+    canvas.style.height = '320px';
+
+    const ctx = canvas.getContext('2d');
+
+    if(chart) chart.destroy();
+
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: fechas,
+        datasets: [{
+          label: ticker,
+          data: precios,
+          borderWidth: 3,
+          tension: 0.4,
+          pointRadius: 0,
+          borderColor: 'rgba(201,169,97,1)',
+          backgroundColor: 'rgba(201,169,97,0.08)'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { display: true },
+          y: { display: true }
+        }
+      }
+    });
+  } catch(err){
+    console.error('Error en cargarGrafica:', err);
+    alert('Error al generar la gráfica. Revisa la consola del navegador.');
+  }
+}
+
+/* ---------- ROI ACCIÓN ---------- */
+async function cargarROIAccion(){const ticker=document.getElementById("tickerGrafica").value.trim().toUpperCase();if(!ticker) return;const r=await fetchConAuth(`${API_URL}/acciones/roi/${ticker}`);if(!r) return;const d=await r.json();let icono=d.roi>=0?"📈":"📉";document.getElementById("roi_accion").innerText=`${icono} $${d.ganancia} | ${d.roi}%`;document.getElementById("roi_accion").style.color=d.roi>=0?"#2ecc71":"#e74c3c"}
+
+/* ---------- AGREGAR ---------- */
+async function agregarAccion(){const ticker=document.getElementById("tickerAgregar").value.trim().toUpperCase();const cantidad=document.getElementById("cantidad").value;if(!ticker||!cantidad) return alert("Completa los campos");const r=await fetchConAuth(`${API_URL}/portafolio/agregar`,{method:"POST",body:JSON.stringify({ticker,cantidad})});if(!r) return;document.getElementById("tickerAgregar").value="";document.getElementById("cantidad").value="";cargarTabla();cargarResumen()}
+
+/* ---------- ELIMINAR ---------- */
+async function eliminarAccion(id){if(!confirm("¿Seguro que quieres eliminar esta acción?")) return;const r=await fetchConAuth(`${API_URL}/portafolio/eliminar/${id}`,{method:"DELETE"});if(!r) return;cargarTabla();cargarResumen()}
+
+/* ---------- TABLA ---------- */
+async function cargarTabla(){const r=await fetchConAuth(`${API_URL}/portafolio/analisis`);if(!r) return;const data=await r.json();const tabla=document.getElementById("tabla-portafolio");tabla.innerHTML="";data.forEach(a=>{const color=a.ganancia>=0?"#2ecc71":"#e74c3c";tabla.innerHTML+=`<tr><td>${a.ticker}</td><td>${a.cantidad}</td><td>$${a.precio_compra}</td><td>$${a.precio_actual}</td><td style="color:${color}">$${a.ganancia}</td><td style="color:${color}">${a.roi}%</td><td><button style="background:#e74c3c;padding:6px 10px;border-radius:6px" onclick="eliminarAccion(${a.id})">🗑</button></td></tr>`});if(data.length>0){let mejor=data.reduce((max,actual)=>actual.roi>max.roi?actual:max);document.getElementById("mejor_accion").innerText=`${mejor.ticker} (${mejor.roi}%)`;document.getElementById("mejor_accion").style.color="#2ecc71"}}
+
+/* ---------- PERFIL DE RIESGO ---------- */
+async function cargarPerfilRiesgo(){const r=await fetchConAuth(`${API_URL}/perfil/riesgo`);if(!r) return;const data=await r.json();const emojis={'Conservador':'🛡️','Moderado':'⚖️','Agresivo':'🚀'};const emoji=emojis[data.perfil]||'📊';document.getElementById("perfil_riesgo").innerText=`${emoji} ${data.perfil}`;document.getElementById("volatilidad_info").innerHTML=`Volatilidad: ${data.volatilidad}% | ROI promedio: ${data.roi_promedio}%`}
+
+/* ---------- RECOMENDACIONES ---------- */
+function obtenerHistorialRecomendaciones(){
+  try{
+    const raw = localStorage.getItem("reco_historial_tickers");
+    const data = raw ? JSON.parse(raw) : [];
+    return Array.isArray(data) ? data : [];
+  }catch(_){
+    return [];
+  }
+}
+
+function guardarHistorialRecomendaciones(tickers){
+  const actual = obtenerHistorialRecomendaciones();
+  const normalizados = tickers.map(t => String(t).toUpperCase());
+  const unicos = Array.from(new Set([...actual, ...normalizados]));
+  const ultimos = unicos.slice(-30);
+  localStorage.setItem("reco_historial_tickers", JSON.stringify(ultimos));
+}
+
+function construirExclusion(maximo = 12){
+  const historial = obtenerHistorialRecomendaciones();
+  return historial.slice(-maximo).join(',');
+}
+
+async function agregarDesdeRecomendacion(ticker){
+  const cantidadInput = prompt(`Cantidad para agregar ${ticker}:`, "1");
+  if(cantidadInput === null) return;
+  const cantidad = parseInt(cantidadInput, 10);
+  if(!Number.isInteger(cantidad) || cantidad <= 0) return alert("Ingresa una cantidad válida");
+
+  const r = await fetchConAuth(`${API_URL}/portafolio/agregar`, {
+    method: "POST",
+    body: JSON.stringify({ticker, cantidad})
+  });
+  if(!r || !r.ok) return alert("No se pudo agregar la acción recomendada");
+
+  alert(`✅ ${ticker} agregada al portafolio`);
+  cargarTabla();
+  cargarResumen();
+  cargarPerfilRiesgo();
+  cargarRecomendaciones(true);
+}
+
+async function cargarRecomendaciones(actualizar=false){
+  const container=document.getElementById("recomendaciones-container");
+  container.innerHTML="<p style='color:var(--muted)'>Actualizando recomendaciones...</p>";
+
+  const excluir = actualizar ? construirExclusion(12) : "";
+  const qsExcluir = excluir ? `&excluir=${encodeURIComponent(excluir)}` : "";
+  const r=await fetchConAuth(`${API_URL}/recomendaciones?cantidad=6&actualizar=${actualizar ? "true" : "false"}${qsExcluir}&_ts=${Date.now()}`);
+  if(!r) return;
+
+  const data=await r.json();
+  container.innerHTML="";
+  if(!data.recomendaciones||data.recomendaciones.length===0){
+    container.innerHTML="<p style='color: #8a92a1;'>No hay recomendaciones disponibles en este momento.</p>";
+    return;
+  }
+
+  const tickersMostrados = data.recomendaciones.map(rec => rec.ticker);
+  guardarHistorialRecomendaciones(tickersMostrados);
+
+  data.recomendaciones.forEach(rec=>{
+    const colorRiesgo=rec.riesgo==='Bajo'? '#2ecc71':rec.riesgo==='Medio'?'#f39c12':'#e74c3c';
+    const iconoRiesgo=rec.riesgo==='Bajo'?'✅':rec.riesgo==='Medio'?'⚠️':'🔴';
+    const div=document.createElement('div');
+    div.className='reco-item';
+    div.innerHTML=`<div style="flex:1"><div style="font-weight:bold;color:var(--gold)">${rec.ticker} - ${rec.nombre}</div><div style="font-size:12px;color:#8a92a1;margin:6px 0">${rec.razon}</div><div style="font-size:11px;color:#8a92a1">Sector: ${rec.sector} | Seguridad: ${rec.seguridad}/100 | Rentabilidad: ${rec.rentabilidad}/100</div><button style="margin-top:8px;padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.25);background:linear-gradient(90deg,var(--green),var(--red));color:#fff;cursor:pointer;font-size:12px" onclick="agregarDesdeRecomendacion('${rec.ticker}')">+ Agregar al portafolio</button></div><div style="text-align:right;margin-left:12px"><div style="font-size:18px;font-weight:700;color:var(--gold)">${rec.score}</div><div style="font-size:12px;color:${colorRiesgo};margin-top:6px">${iconoRiesgo} ${rec.riesgo}</div></div>`;
+    container.appendChild(div);
+  })
+}
+
+/* ---------- ANÁLISIS DE DIVERSIFICACIÓN ---------- */
+async function cargarAnalisisDiversificacion(){const r=await fetchConAuth(`${API_URL}/analisis/diversificacion`);if(!r) return;const data=await r.json();document.getElementById("diversificacion_score").innerText=`${data.score_diversificacion}%`;const container=document.getElementById("diversificacion-analisis");container.innerHTML="";const barra=document.createElement('div');barra.style.cssText='background:rgba(15,20,25,0.7);padding:15px;border-radius:12px;border-left:4px solid var(--gold);';const barraPorcentaje=document.createElement('div');barraPorcentaje.style.cssText='background:rgba(100,100,100,0.3);height:20px;border-radius:10px;overflow:hidden;margin:10px 0;';const barraDatos=document.createElement('div');barraDatos.style.cssText=`background:linear-gradient(90deg,var(--gold),var(--accent));height:100%;width:${data.score_diversificacion}%;transition:width 0.3s ease;`;barraPorcentaje.appendChild(barraDatos);barra.appendChild(barraPorcentaje);let composList=Object.entries(data.composicion_sectorial||{}).map(([s,v])=>`• ${s}: $${Number(v).toFixed(2)}`).join('<br>');barra.innerHTML+=`<div style="font-size:12px;color:#8a92a1;margin-top:10px"><strong>Composición sectorial:</strong><br>${composList}</div>`;container.appendChild(barra);(data.recomendaciones||[]).forEach(rec=>{const div=document.createElement('div');div.style.cssText='background:rgba(15,20,25,0.7);padding:12px;border-radius:12px;border-left:4px solid var(--gold);font-size:13px;color:#c9a961';div.innerText=rec;container.appendChild(div)})}
+
+/* ---------- INIT ---------- */
+document.getElementById("calcTicker").addEventListener("change", autocompletarPrecioCalculadora);
+document.getElementById("calcTicker").addEventListener("blur", autocompletarPrecioCalculadora);
+
+cargarResumen();cargarTabla();cargarPerfilRiesgo();cargarRecomendaciones(false);cargarAnalisisDiversificacion();cargarAlertas();cargarLogros();
+</script>
+</body>
+</html>
